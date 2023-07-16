@@ -4,6 +4,7 @@ export const searchCities = async (term) => {
   try {
     const response = await fetch(`http://api.weatherapi.com/v1/search.json?lang=pt&key=${TOKEN}&q=${term}`);
     const data = await response.json();
+    console.log(data);
     if (data.length === 0) {
       window.alert('Nenhuma cidade encontrada');
     }
@@ -12,7 +13,20 @@ export const searchCities = async (term) => {
     return error;
   }
 };
+// console.log(searchCities('Rio'));
 
-export const getWeatherByCity = (/* cityURL */) => {
-//   seu código aqui
+export const getWeatherByCity = async (cityURL) => {
+  try {
+    const response = await fetch(`http://api.weatherapi.com/v1/current.json?lang=pt&key=${TOKEN}&q=${cityURL}`);
+    const data = await response.json();
+    return {
+      temp: data.current.temp_c,
+      condition: data.current.condition.text,
+      icon: data.current.condition.icon,
+    };
+  } catch (error) {
+    return error;
+  }
 };
+
+// console.log(getWeatherByCity('sao-paulo-sao-paulo-brazil'));
